@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %} Game list {% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for game in games %}
+  <div class="col">
+    <div class="card">
+        {% if game.image %}
+      <img style="width:550px; height:400px;" src="{{game.image.url}}" class="card-img-top" alt="...">
+        {% else %}
+              <img style="width:400px; height:400px;" src="{% static 'img/dd.jpg' %}" class="card-img-top" alt="...">
+        {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">{{ game.name }}</h5>
+        <p class="card-text">{{ game.status }}</p>
+                <p class="card-text">${{ game.price }}</p>
+
+          <a class="btn btn-success" href="{% url 'create-order' game.id %}" role="button">Купи и наслаждайся</a>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+<nav aria-label="Page navigation example">
+    {% if games.has_other_pages %}
+  <ul class="pagination">
+    {% if games.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ games.previous_page_number }}">Previous</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in games.paginator.page_range %}
+      {% if games.number == i %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if games.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ games.next_page_number }}">Next</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+</nav>
+
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+
+<!--    <li class="page-item"><a class="page-link" href="#">Previous</a></li>-->
+<!--    <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--    <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+<!--    <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--    <li class="page-item"><a class="page-link" href="#">Next</a></li>-->
+  </ul>
+</nav>
+{% endblock %}
